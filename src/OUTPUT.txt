@@ -1,0 +1,570 @@
+/**
+ * @author Zachary Garson
+ * 9/24/2023
+ *zgarson.u.rochester.edu
+ *Lab 1, Section 6
+ */
+
+javac Sorting.java
+java Sorting inputfile.txt algorithm
+ 
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.*;
+
+public class Sorting {
+	
+	public static String algorithmUsed;
+	public static String arrayUsed;
+	public static String netID = "zgarson";
+    public static Stopwatch timer = new Stopwatch();
+    public static double time = timer.elapsedTimeMillis();    
+    public static String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+
+ /**
+     * 
+     * Sorts the numbers present in the file based on the algorithm provided.
+     * 0 = Arrays.sort() (Java Default)
+     * 1 = Bubble Sort
+     * 2 = Selection Sort 
+     * 3 = Insertion Sort 
+     * 4 = Mergesort
+     * 5 = Quicksort
+     *
+     * @param args the command-line arguments
+     */
+    public static void main(String[] args) throws IOException{ 
+        In in = new In(args[0]);
+        int alg = Integer.parseInt(args[1]);
+        
+		  // Storing file input in an array
+        int[] a = in.readAllInts(); 
+        // algorithm a
+        arrayA(a);
+
+        // cloning array
+        int[] b = a.clone();
+        // array list method call b
+        arrayB(b);
+
+        //cloning the sorted array of integers from int[] b
+        int[] c = b.clone();
+        // array list method call c
+        arrayC(c);
+
+        // cloning sorted list c for algorithm d
+        int[] d = a.clone();
+        //  array list method call d
+        arrayD(d);
+        
+        //creating file to write to
+        File fileA = new File("a.txt");
+        File fileB = new File("b.txt");
+        File fileC = new File("c.txt");
+        File fileD = new File("d.txt");
+        
+        //creating file writer class
+        FileWriter fwA = new FileWriter(fileA);
+        FileWriter fwB = new FileWriter(fileB);
+        FileWriter fwC = new FileWriter(fileC);
+        FileWriter fwD = new FileWriter(fileD);
+        
+        // creating print writer class
+        PrintWriter pwA = new PrintWriter(fwA);
+        PrintWriter pwB = new PrintWriter(fwB);
+        PrintWriter pwC = new PrintWriter(fwC);
+        PrintWriter pwD = new PrintWriter(fwD);
+        
+        
+        // Arrays.sort()
+        if(alg == 0) {
+        		
+    	  	time = timer.elapsedTimeMillis();
+    	  	Arrays.sort(a);
+        	algorithmUsed = "Arrays.sort()";
+        	arrayUsed = "a";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+            
+            //write
+    	  	time = timer.elapsedTimeMillis();
+    	  	pwA.write(Arrays.toString(a));
+    	  	pwA.close();
+
+            Arrays.sort(b);
+        	algorithmUsed = "Arrays.sort()";
+        	arrayUsed = "b";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+    	  	time = timer.elapsedTimeMillis();
+    	  	
+    	  	// write
+    	  	pwB.write(Arrays.toString(b));
+    	  	pwB.close();
+
+            Arrays.sort(c);
+        	algorithmUsed = "Arrays.sort()";
+        	arrayUsed = "c";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+    	  	time = timer.elapsedTimeMillis();
+    	  	
+    	  	//write
+    	  	pwC.write(Arrays.toString(c));
+    	  	pwC.close();
+
+            Arrays.sort(d);
+        	algorithmUsed = "Arrays.sort()";
+        	arrayUsed = "d";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+            
+            //write file
+            pwD.write(Arrays.toString(d));
+    	  	pwD.close();
+    	  	
+    	  	System.out.print(Arrays.toString(d));
+
+    	}	
+    
+    	// 1 Bubble sort
+    	if(alg == 1) {
+    	  	time = timer.elapsedTimeMillis();
+    		bubbleSort(a, a.length);
+           	algorithmUsed = "Bubble Sort";
+        	arrayUsed = "a";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+           
+            // write file
+            pwA.write(Arrays.toString(bubbleSort(a, a.length))); 
+    	  	pwA.close();
+            
+            time = timer.elapsedTimeMillis();
+    		bubbleSort(b, b.length);
+           	algorithmUsed = "Bubble Sort";
+        	arrayUsed = "b";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+            
+            //write file
+            pwB.write(Arrays.toString(bubbleSort(b, b.length)));
+            pwB.close();
+
+            time = timer.elapsedTimeMillis();
+    		bubbleSort(c, c.length);
+           	algorithmUsed = "Bubble Sort";
+        	arrayUsed = "c";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+            
+            //write file
+            pwC.write(Arrays.toString(bubbleSort(c, c.length)));
+            pwC.close();
+            
+            time = timer.elapsedTimeMillis();
+    		bubbleSort(d, d.length);
+           	algorithmUsed = "Bubble Sort";
+        	arrayUsed = "d";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+            
+            //write file
+            pwD.write(Arrays.toString(bubbleSort(d,d.length)));
+            pwD.close();
+            
+    	}
+    
+    	// 2 Selection sort
+    	if (alg == 2) {    		
+    		time = timer.elapsedTimeMillis();
+    		selectionSort(a, a.length);
+           	algorithmUsed = "Selection Sort";
+        	arrayUsed = "a";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+            
+            //write file
+            pwA.write(Arrays.toString(selectionSort(a,a.length)));
+            pwA.close();
+            
+            time = timer.elapsedTimeMillis();
+    		selectionSort(b, b.length);
+           	algorithmUsed = "Selection Sort";
+        	arrayUsed = "b";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+            
+            //write file
+            pwB.write(Arrays.toString(selectionSort(b, b.length)));
+            pwB.close();
+            
+            time = timer.elapsedTimeMillis();
+    		selectionSort(c, c.length);
+           	algorithmUsed = "Selection Sort";
+        	arrayUsed = "c";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+            
+          //write file
+            pwC.write(Arrays.toString(selectionSort(c, c.length)));
+            pwC.close();
+            
+            time = timer.elapsedTimeMillis();
+    		selectionSort(d, d.length);
+           	algorithmUsed = "Selection Sort";
+        	arrayUsed = "d";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+            
+          //write file
+            pwD.write(Arrays.toString(selectionSort(d, d.length)));
+            pwD.close();
+            
+    	}
+    	// 3 Insertion sort
+    	if(alg == 3) {
+   
+    		time = timer.elapsedTimeMillis();
+    		insertionSort(a, a.length);
+           	algorithmUsed = "Insertion Sort";
+        	arrayUsed = "a";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+            
+          //write file
+            pwA.write(Arrays.toString(insertionSort(a, a.length)));
+            pwA.close();
+            
+            time = timer.elapsedTimeMillis();
+    		insertionSort(b, b.length);
+           	algorithmUsed = "Insertion Sort";
+        	arrayUsed = "b";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+            
+          //write file
+            pwB.write(Arrays.toString(selectionSort(b, b.length)));
+            pwB.close();
+            
+            time = timer.elapsedTimeMillis();
+    		insertionSort(c, c.length);
+           	algorithmUsed = "Insertion Sort";
+        	arrayUsed = "c";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+
+            //write file
+              pwC.write(Arrays.toString(selectionSort(c, c.length)));
+              pwC.close();
+            
+            time = timer.elapsedTimeMillis();
+    		insertionSort(d, d.length);
+           	algorithmUsed = "Insertion Sort";
+        	arrayUsed = "d";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+
+            //write file
+              pwD.write(Arrays.toString(selectionSort(d, d.length)));
+              pwD.close();    
+    	}
+    	
+    	//merge sort
+    	if(alg == 4) {
+    		time = timer.elapsedTimeMillis();
+    		mergeSort(a, 0 , a.length - 1);
+    		algorithmUsed = "Merge Sort";
+        	arrayUsed = "a";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+            
+          //write file
+            pwA.write(Arrays.toString(mergeSort(a, 0, a.length - 1)));
+            pwA.close();
+            
+            time = timer.elapsedTimeMillis();
+    		mergeSort(b, 0 , b.length - 1);
+    		algorithmUsed = "Merge Sort";
+        	arrayUsed = "b";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+            
+            //write file
+            pwB.write(Arrays.toString(mergeSort(b, 0, b.length - 1)));
+            pwB.close();
+            
+            time = timer.elapsedTimeMillis();
+    		mergeSort(c, 0 , c.length - 1);
+    		algorithmUsed = "Merge Sort";
+        	arrayUsed = "c";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);
+            
+            //write file
+            pwC.write(Arrays.toString(mergeSort(c, 0, c.length - 1)));
+            pwC.close();
+            
+            time = timer.elapsedTimeMillis();
+    		mergeSort(d, 0 , d.length - 1);
+    		algorithmUsed = "Merge Sort";
+        	arrayUsed = "d";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]);     
+            
+          //write file
+            pwD.write(Arrays.toString(mergeSort(d, 0, d.length - 1)));
+            pwD.close();
+    	}
+    	//quicksort
+    	
+    	if(alg == 5) {
+    		
+    		time = timer.elapsedTimeMillis();
+    		quickSort(a, 0, a.length - 1);
+    		algorithmUsed = "Quick Sort";
+    		arrayUsed = "a";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]); 
+            
+          //write file
+            pwA.write(Arrays.toString(quickSort(a, 0, a.length - 1)));
+            pwA.close();
+            
+            time = timer.elapsedTimeMillis();
+    		quickSort(b, 0, b.length - 1);
+    		algorithmUsed = "Quick Sort";
+    		arrayUsed = "b";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]); 
+            
+          //write file
+            pwB.write(Arrays.toString(quickSort(b, 0, b.length - 1)));
+            pwB.close();
+            
+            time = timer.elapsedTimeMillis();
+    		quickSort(c, 0, c.length - 1);
+    		algorithmUsed = "Quick Sort";
+    		arrayUsed = "c";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]); 
+            
+          //write file
+            pwC.write(Arrays.toString(quickSort(c, 0, c.length - 1)));
+            pwC.close();
+            
+            
+            time = timer.elapsedTimeMillis();
+    		quickSort(d, 0, d.length - 1);
+    		algorithmUsed = "Quick Sort";
+    		arrayUsed = "d";
+            StdOut.printf("%s %s %8.1f   %s  %s  %s\n", algorithmUsed, arrayUsed, time, timeStamp, netID, args[0]); 
+            
+          //write file
+            pwD.write(Arrays.toString(quickSort(d, 0, d.length - 1)));
+            pwD.close();
+
+    	}
+	}	
+        
+        // TODO: Generate 3 other arrays, b, c, d where
+        // b contains sorted integers from a (You can use Java Arrays.sort() method)
+        // c contains all integers stored in reverse order 
+        // (you can have your own O(n) solution to get c from b
+        // d contains almost sorted array 
+        //(You can copy b to a and then perform (0.1 * d.length)  many swaps to acheive this.   
+        
+        
+        //TODO: 
+        // Read the second argument and based on input select the sorting algorithm
+        //  * 0 = Arrays.sort() (Java Default)
+        //  * 1 = Bubble Sort
+        //  * 2 = Selection Sort 
+        //  * 3 = Insertion Sort 
+        //  * 4 = Mergesort
+        //  * 5 = Quicksort
+        //  Perform sorting on a,b,c,d. Pring runtime for each case along with timestamp and record those. 
+        // For runtime and printing, you can use the same code from Lab 4 as follows:
+        
+             
+// preparing arrays for sorting
+    //  Array list a
+    public static int[] arrayA(int[] arr) {
+    	return arr;
+    }
+    // array list b
+    public static int[] arrayB(int[] arr) {
+    	Arrays.sort(arr);
+		return arr;
+    }
+    // Array list c
+    public static int[] arrayC(int[] arr) {
+    	int n = arr.length-1;
+    	// reverses the order of the list
+    	for(int i = 0; i < n/2; i++) {
+    		int temp = arr[i];
+    		arr[i] = arr[n - i - 1];
+    		arr[n - i -1] = temp;
+    	}
+    	return arr;
+    }
+    // array list d
+    public static int[] arrayD(int[] arr) {
+    	
+    	// sorting 10% of the elements of int [] a.clone();
+    	int i, j, tmp = 0;
+    	int n = arr.length;
+    	for(i = 1 ; i < n * 0.1; i++) {
+    		j = i;
+    		while(j > 0 && arr[j] < arr[j-1] ) {
+    			// swapping indices
+    			tmp = arr[j];
+    			arr[j] = arr[j - 1];
+    			arr[j - 1] = tmp;
+    		}
+    	}
+    	return arr;
+    	
+	}
+    
+// methods for sorting algorithms
+    
+    // bubble sort method
+	public static int[] bubbleSort(int[] arr, int arrLength) {
+		
+		int n = arr.length;
+		int i, j, tmp;
+		for (i = 0; i < n; i++) {
+			 for(j = i + 1; j < n; j++) {
+				if(arr[j] < arr[i]) {
+					tmp = arr[i];
+					arr[i] = arr[j];
+					arr[j] = tmp;
+				}
+			 }
+		}
+		 return arr; 
+	}
+	
+	// selection sort
+	public static int[] selectionSort(int [] arr, int arrLength) {
+	
+		int i, j, min, tmp = 0;
+		for (i = 0; i < arr.length; i++) {
+			min = i;
+			for(j = i + 1; j < arr.length; j++) {
+				if(arr[j] < arr[min]) {
+					min = j;
+				}
+			}
+			// swapping indices
+			tmp = arr[i];
+			arr[i] = arr[min];
+			arr[min] = tmp;
+		}
+		return arr;
+	}
+	
+	// Insertion sort
+	public static int[] insertionSort(int[] arr, int arrLength) {
+		int i, j, tmp = 0;
+		for(i = 1; i < arr.length; ++i) {
+			j = i;
+			while(j > 0 && arr[j] < arr[j - 1]) {
+				//swap indices
+				tmp = arr[j];
+				arr[j] = arr[j - 1];
+				arr[j - 1] = tmp;
+				--j;
+			}
+		}
+		return arr;
+	}
+	
+	// Merge sort
+	// merging part
+	public static int[] merge(int[] arr, int i, int j, int k) {
+		int size = k - i + 1;
+		int l = 0;
+		int r = 0;
+		int pos = 0;
+		int [] mergedArr = new int[size];
+		
+		l = i;
+		r = j + 1;
+		
+		while(l <= j && r <= k) {
+			if(arr[l] <= arr[r]) {
+				mergedArr[pos] = arr[l];
+				++l;
+			} else {
+				mergedArr[pos] = arr[r];
+				++r;
+			}
+			++pos;
+		}
+		
+		while (l <= j) {
+			mergedArr[pos] = arr[l];
+			++l;
+			++pos;
+		}
+		
+		while (r <= k) {
+			mergedArr[pos] = arr[r];
+			++r;
+			++pos;
+		}
+		
+		for(pos = 0; pos < size; ++pos) {
+			arr[i + pos] = mergedArr[pos];
+		}
+		
+		return arr;
+	}
+	
+	// sorting  merge part
+	public static int[] mergeSort(int [] arr, int i, int k) {
+		
+		int j = 0;
+		
+		if(i < k) {
+			j = (i + k) / 2;
+			
+			mergeSort(arr, i, j);
+			mergeSort(arr, j + 1, k);
+			merge(arr, i, j, k);
+		}
+		
+		return arr;
+	}
+	
+	// quicksort
+	// quicksort partitioning
+	public static int quickSortPartition(int[] arr, int low, int hi) {
+		
+		int midPoint = low + (hi - low) / 2;
+		int pivot = arr[midPoint];
+		boolean d = false;
+		
+		while(!d) {
+			while(arr[low] < pivot) {
+				low += 1;
+			}
+			while(pivot < arr[hi]) {
+				hi -= 1;
+			}
+			if(low >= hi) {
+				d = true;
+			} else {
+				//swapping indices
+				int tmp = arr[low];
+				arr[low] = arr[hi];
+				arr[hi] = tmp;
+				
+				low += 1;
+				hi -= 1;
+			}
+		}
+		return hi;
+	}
+	
+	// quicksort
+	public static int[] quickSort(int[] arr, int low, int hi) {
+		if(low >= hi) {
+			return arr;
+		}
+		
+		int lowEnd = quickSortPartition(arr, low, hi);
+		quickSort(arr, low, lowEnd);
+		quickSort(arr, lowEnd + 1, hi);
+		
+		return arr;
+	}
+	
+} 
+
+
+ 
